@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace get_links_from_appsettings.Controllers
+namespace Project1.Controllers
 {
     [ApiController]
     [Route("[controller]")]

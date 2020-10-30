@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>get_links_from_appsettings</RootNamespace>
+    <RootNamespace>Project1</RootNamespace>
   </PropertyGroup>
 
 

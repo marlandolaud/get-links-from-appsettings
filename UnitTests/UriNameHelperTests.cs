@@ -1,4 +1,4 @@
-using get_links_from_appsettings;
+using Project1;
 using NUnit.Framework;
 
 //https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project

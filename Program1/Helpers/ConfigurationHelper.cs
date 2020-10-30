@@ -1,4 +1,4 @@
-﻿namespace get_links_from_appsettings
+﻿namespace Project1
 {
     using Microsoft.Extensions.Configuration;
     using System;

@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "get_links_from_appsettings": {
+    "Project1": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

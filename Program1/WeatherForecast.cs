@@ -1,6 +1,6 @@
 using System;
 
-namespace get_links_from_appsettings
+namespace Project1
 {
     public class WeatherForecast
     {
