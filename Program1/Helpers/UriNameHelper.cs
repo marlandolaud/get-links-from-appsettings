@@ -4,7 +4,7 @@
     
     public class UriNameHelper
     {
-        public static string CleanupUriName(string input)
+        public static string CleanupConfigKey(string input)
         {
             var tree = input.Split(":");
             if (!tree.Any())
@@ -24,7 +24,9 @@
 
             return returnValue
                 .Replace("BaseUri", string.Empty)
-                .Replace("Uri", string.Empty);
+                .Replace("BaseUrl", string.Empty)
+                .Replace("Uri", string.Empty)
+                .Replace("Url", string.Empty);
         }
     }
 }

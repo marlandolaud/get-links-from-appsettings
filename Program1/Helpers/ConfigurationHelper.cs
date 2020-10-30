@@ -11,7 +11,7 @@
             IConfiguration configuration,
             IEnumerable<string> configurationSections)
         {
-            var kvp = new Dictionary<string, string>();
+            var kvp = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (configuration == null || configurationSections == null)
             {
                 return kvp;
@@ -48,7 +48,7 @@
         {
             if (Uri.TryCreate(item.Value, UriKind.Absolute, out var uri))
             {
-                var uriKeyName = UriNameHelper.CleanupUriName(item.Key);
+                var uriKeyName = UriNameHelper.CleanupConfigKey(item.Key);
 
                 if (!kvp.ContainsValue(uri.Host) && !kvp.ContainsKey(uriKeyName))
                 {
