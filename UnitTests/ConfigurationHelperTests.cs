@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using FluentAssertions;
 using FluentAssertions.Common;
+using System.Collections.Generic;
 
 //https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
 namespace UnitTests
@@ -97,6 +98,42 @@ namespace UnitTests
             results.Keys.Contains(expectedValue0).Should().BeTrue();
             results.Keys.Contains(expectedValue1).Should().BeTrue();
             results.Keys.Contains(expectedValue2).Should().BeTrue();
+        }
+
+        [Test]
+        public void ShouldGetEmptyDictionaryWhenNullInput()
+        {
+            // Act
+            var result = ConfigurationHelper.GetUriFromConfigurationSection(null, null);
+            
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Dictionary<string, string>>();
+            result.Any().Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldGetEmptyDictionaryWhenNullConfiguration()
+        {
+            // Act
+            var result = ConfigurationHelper.GetUriFromConfigurationSection(configuration, null);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Dictionary<string, string>>();
+            result.Any().Should().BeFalse();
+        }
+
+        [Test]
+        public void ShouldGetEmptyDictionaryWhenEmptyList()
+        {
+            // Act
+            var result = ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[0]);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Dictionary<string, string>>();
+            result.Any().Should().BeFalse();
         }
     }
 }
