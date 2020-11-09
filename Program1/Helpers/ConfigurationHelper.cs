@@ -50,11 +50,19 @@
             {
                 var uriKeyName = UriNameHelper.CleanupConfigKey(item.Key);
 
-                if (!kvp.ContainsValue(uri.Host) && !kvp.ContainsKey(uriKeyName))
+                if (IsNewValidUri(kvp, uri, uriKeyName))
                 {
                     kvp.Add(uriKeyName, uri.Host);
                 }
             }
-        }        
+        }
+
+        private static bool IsNewValidUri(Dictionary<string, string> kvp, Uri uri, string uriKeyName)
+        {
+            return !kvp.ContainsValue(uri.Host) && 
+                !kvp.ContainsKey(uriKeyName) &&
+                !string.IsNullOrEmpty(uri.Host) &&
+                !string.IsNullOrEmpty(uriKeyName);
+        }
     }
 }

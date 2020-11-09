@@ -1,15 +1,15 @@
-using Project1;
-using NUnit.Framework;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System;
-using FluentAssertions;
-using FluentAssertions.Common;
-using System.Collections.Generic;
 
 //https://stackoverflow.com/questions/39791634/read-appsettings-json-values-in-net-core-test-project
 namespace UnitTests
 {
+    using Project1;
+    using NUnit.Framework;
+    using Microsoft.Extensions.Configuration;
+    using System.Linq;
+    using System;
+    using FluentAssertions;
+    using System.Collections.Generic;
+    
     public class Tests
     {
         IConfiguration configuration;
