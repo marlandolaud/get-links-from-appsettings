@@ -5,13 +5,20 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class ConfigurationHelper
+    public class ConfigurationHelper : IConfigurationHelper
     {
-        public static Dictionary<string, string> GetUriFromConfigurationSection(
-            IConfiguration configuration,
-            IEnumerable<string> configurationSections)
+        private Dictionary<string, string> kvp;
+
+        private readonly IConfiguration configuration;
+
+        public ConfigurationHelper(IConfiguration configuration)
         {
-            var kvp = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            kvp = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            this.configuration = configuration;
+        }
+
+        public Dictionary<string, string> GetUriFromConfigurationSection(IEnumerable<string> configurationSections)
+        {
             if (configuration == null || configurationSections == null)
             {
                 return kvp;
@@ -19,16 +26,13 @@
 
             foreach (var section in configurationSections)
             {
-                FindUriPerSection(configuration, kvp, section);
+                FindUrisPerConfigurationSection(section);
             }
 
             return kvp;
         }
 
-        private static void FindUriPerSection(
-            IConfiguration configuration, 
-            Dictionary<string, string> kvp, 
-            string targetSection)
+        private void FindUrisPerConfigurationSection(string targetSection)
         {
             var itemsInConfigSection = configuration.GetSection(targetSection);
             if (itemsInConfigSection == null)
@@ -38,28 +42,26 @@
 
             foreach (var item in itemsInConfigSection.AsEnumerable())
             {
-                AddUniqueUriHosts(kvp, item);
+                AddUniqueUriHosts(item);
             }
         }
 
-        private static void AddUniqueUriHosts(
-            Dictionary<string, string> kvp, 
-            KeyValuePair<string, string> item)
+        private void AddUniqueUriHosts(KeyValuePair<string, string> item)
         {
             if (Uri.TryCreate(item.Value, UriKind.Absolute, out var uri))
             {
                 var uriKeyName = UriNameHelper.CleanupConfigKey(item.Key);
 
-                if (IsNewValidUri(kvp, uri, uriKeyName))
+                if (IsNotInCollection(uri, uriKeyName))
                 {
                     kvp.Add(uriKeyName, uri.Host);
                 }
             }
         }
 
-        private static bool IsNewValidUri(Dictionary<string, string> kvp, Uri uri, string uriKeyName)
+        private bool IsNotInCollection(Uri uri, string uriKeyName)
         {
-            return !kvp.ContainsValue(uri.Host) && 
+            return !kvp.ContainsValue(uri.Host) &&
                 !kvp.ContainsKey(uriKeyName) &&
                 !string.IsNullOrEmpty(uri.Host) &&
                 !string.IsNullOrEmpty(uriKeyName);

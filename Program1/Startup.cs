@@ -15,11 +15,14 @@ namespace Project1
 
         public IConfiguration Configuration { get; }
 
+        private IConfigurationHelper configurationHelper;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var collection = ConfigurationHelper.GetUriFromConfigurationSection(Configuration, new string[] { 
+            configurationHelper = new ConfigurationHelper(Configuration);
+            var collection = configurationHelper.GetUriFromConfigurationSection(new string[] { 
                 "MicroservicesClients",
                 "KafkaClients",
             });

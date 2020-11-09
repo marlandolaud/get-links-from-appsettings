@@ -14,12 +14,16 @@ namespace UnitTests
     {
         IConfiguration configuration;
 
-        [OneTimeSetUp]
+        IConfigurationHelper sut;
+
+        [SetUp]
         public void Setup()
         {
             configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
+
+            sut = new ConfigurationHelper(configuration);
         }
 
         [Test]
@@ -30,8 +34,8 @@ namespace UnitTests
             var expectedUri = new Uri("https://localhost.com");
             
             // Act
-            var results = 
-                ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[] { 
+            var results =
+                sut.GetUriFromConfigurationSection(new string[] { 
                     "KafkaClients" 
                 });
 
@@ -47,7 +51,7 @@ namespace UnitTests
             // Arrange
             // Act
             var results =
-                ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[] {
+                sut.GetUriFromConfigurationSection(new string[] {
                     "MicroservicesConfig"
                 });
 
@@ -69,7 +73,7 @@ namespace UnitTests
 
             // Act
             var results =
-                ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[] {
+                sut.GetUriFromConfigurationSection(new string[] {
                     "SameHostUri",
                     "SameHostUri2"
                 });
@@ -89,7 +93,7 @@ namespace UnitTests
 
             // Act
             var results =
-                ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[] {
+                sut.GetUriFromConfigurationSection(new string[] {
                     "SectionWithArrays"
                 });
 
@@ -103,8 +107,11 @@ namespace UnitTests
         [Test]
         public void ShouldGetEmptyDictionaryWhenNullInput()
         {
+            // Arrange
+            sut = new ConfigurationHelper(null);
+
             // Act
-            var result = ConfigurationHelper.GetUriFromConfigurationSection(null, null);
+            var result = sut.GetUriFromConfigurationSection(null);
             
             // Assert
             result.Should().NotBeNull();
@@ -116,7 +123,7 @@ namespace UnitTests
         public void ShouldGetEmptyDictionaryWhenNullConfiguration()
         {
             // Act
-            var result = ConfigurationHelper.GetUriFromConfigurationSection(configuration, null);
+            var result = sut.GetUriFromConfigurationSection(null);
 
             // Assert
             result.Should().NotBeNull();
@@ -128,7 +135,7 @@ namespace UnitTests
         public void ShouldGetEmptyDictionaryWhenEmptyList()
         {
             // Act
-            var result = ConfigurationHelper.GetUriFromConfigurationSection(configuration, new string[0]);
+            var result = sut.GetUriFromConfigurationSection(new string[0]);
 
             // Assert
             result.Should().NotBeNull();
